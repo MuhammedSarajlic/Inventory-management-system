@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema({
+  employee_id: { type: Schema.Types.ObjectId, ref: "Employee" },
   username: String,
   password: String,
   role: String,

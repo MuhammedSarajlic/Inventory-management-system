@@ -4,7 +4,7 @@ import cors from "cors";
 import { config } from "dotenv";
 config();
 import bcrypt from "bcrypt";
-import User from "./Models/UserModel.js";
+import User from "./Models/User.js";
 const app = express();
 
 app.use(express.json());
