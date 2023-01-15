@@ -2,8 +2,9 @@ import axios from "axios";
 
 export async function getData(url) {
   return axios
-    .get(`${process.env.REACT_APP_PATH}/${url}`)
-    .then((response) => response.data);
+    .get(`${process.env.REACT_APP_PATH}${url}`)
+    .then((response) => response.data)
+    .catch((err) => err);
 }
 
 export async function postData(url, data) {

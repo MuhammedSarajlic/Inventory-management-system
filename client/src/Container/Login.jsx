@@ -25,7 +25,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    postData("api/check-user", loginData).then((res) => {
+    postData("/api/check-user", loginData).then((res) => {
       Cookies.set("jwt_token", res.token);
       navigate("/");
     });

@@ -14,7 +14,7 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    postData("api/add-user", userData).then((res) => console.log(res));
+    postData("/api/add-user", userData).then((res) => console.log(res));
   };
 
   return (
