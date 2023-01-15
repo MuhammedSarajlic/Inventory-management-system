@@ -12,12 +12,8 @@ app.use(cors());
 
 app.use("/api", UserRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello");
-});
-
 mongoose.set("strictQuery", false);
-connect(process.env.MONGODB_URL).then(() => {
+connect(process.env.MONGODB_URL, { useNewUrlParser: true }).then(() => {
   console.log("Success on port 5000");
   app.listen(process.env.PORT);
 });
