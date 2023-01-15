@@ -1,14 +1,23 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import { postData } from "../Utils/api";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
-    withCredentials: true,
   });
+
+  useEffect(() => {
+    const token = Cookies.get("jwt_token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setLoginData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -16,7 +25,10 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    postData("api/check-user", loginData).then((res) => console.log(res));
+    postData("api/check-user", loginData).then((res) => {
+      Cookies.set("jwt_token", res.token);
+      navigate("/");
+    });
   };
 
   return (
