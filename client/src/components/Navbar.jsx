@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   const navigate = useNavigate();
   const handleLogOut = () => {
     Cookies.remove("jwt_token");
@@ -23,14 +23,16 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/employee"
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500"
-                >
-                  Employees
-                </Link>
-              </li>
+              {user?.role === "admin" && (
+                <li>
+                  <Link
+                    to="/employee"
+                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500"
+                  >
+                    Employees
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500">
                   Warehouse
