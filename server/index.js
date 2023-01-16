@@ -7,6 +7,7 @@ config();
 const app = express();
 
 import { UserRoutes } from "./Routes/index.js";
+import User from "./Models/User.js";
 
 app.use(express.json());
 app.use(cors());
@@ -25,8 +26,13 @@ const verifyToken = async (req, res, next) => {
 };
 
 app.use("/api", UserRoutes);
-app.get("/", verifyToken, (req, res) => {
-  res.send("hello");
+app.get("/", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
 });
 
 mongoose.set("strictQuery", false);
