@@ -6,10 +6,6 @@ import { getData } from "../Utils/api";
 
 const Home = () => {
   const navigate = useNavigate();
-  const handleLogOut = () => {
-    Cookies.remove("jwt_token");
-    navigate("/login");
-  };
 
   useEffect(() => {
     const token = Cookies.get("jwt_token");
@@ -21,8 +17,8 @@ const Home = () => {
   }, [navigate]);
 
   return (
-    <div>
-      <button onClick={handleLogOut}>Log out</button>
+    <div className="h-screen flex justify-center items-center">
+      <p>Welcome to Inventory management system</p>
     </div>
   );
 };
