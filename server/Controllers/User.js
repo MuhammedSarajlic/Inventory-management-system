@@ -37,7 +37,6 @@ export async function checkUser(req, res) {
     if (!isValidPassword) {
       return res.status(401).send({ error: "Invalid username or password" });
     }
-    const userId = user._id;
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
     res.send({ token });
   } catch (error) {

@@ -12,12 +12,13 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getData("/").then((res) => {
-      if (res.response.status === 401) {
+    const token = Cookies.get("jwt_token");
+    getData("/", token).then((res) => {
+      if (res.response?.status === 401) {
         navigate("/login");
       }
     });
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

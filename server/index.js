@@ -12,8 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 const verifyToken = async (req, res, next) => {
-  const token = req.header.Authorization;
-
+  const token = req.headers.authorization.split("Bearer ")[1];
   if (!token) return res.status(401).json();
 
   try {
