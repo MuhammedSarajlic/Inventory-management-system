@@ -1,12 +1,47 @@
 import React from "react";
+import { useState } from "react";
 import { AddEmployeeModal } from "../components";
 import useToggle from "../Hooks/useToggle";
+import { postData } from "../Utils/api";
 
 const Employee = () => {
   const [isOpen, toggle] = useToggle(false);
+  const [employeeData, setEmployeeData] = useState({
+    firstName: "",
+    lastName: "",
+    telephone: "",
+    address: "",
+    email: "",
+    doe: "",
+    doc: "",
+  });
+
+  const clearInputField = () => {
+    setEmployeeData({
+      firstName: "",
+      lastName: "",
+      telephone: "",
+      address: "",
+      email: "",
+      doe: "",
+      doc: "",
+    });
+  };
+
+  const handleAddEmployee = () => {
+    postData("/api/employee/add", employeeData).then(() => clearInputField());
+  };
   return (
     <>
-      {isOpen && <AddEmployeeModal toggle={toggle} />}
+      {isOpen && (
+        <AddEmployeeModal
+          toggle={toggle}
+          setEmployeeData={setEmployeeData}
+          handleAddEmployee={handleAddEmployee}
+          employeeData={employeeData}
+          clearInputField={clearInputField}
+        />
+      )}
       <div className="pt-10 max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center my-8">
           <p className="text-3xl font-bold">Employees</p>

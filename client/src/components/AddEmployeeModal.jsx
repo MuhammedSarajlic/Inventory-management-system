@@ -1,6 +1,16 @@
 import React from "react";
 
-const AddEmployeeModal = ({ toggle }) => {
+const AddEmployeeModal = ({
+  toggle,
+  setEmployeeData,
+  handleAddEmployee,
+  employeeData,
+  clearInputField,
+}) => {
+  const handleChange = (e) => {
+    setEmployeeData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
     <>
       <div className="absolute top-0 bg-black w-full h-full z-10 bg-opacity-50 flex items-center justify-center">
@@ -14,7 +24,10 @@ const AddEmployeeModal = ({ toggle }) => {
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-hide="staticModal"
-                onClick={toggle}
+                onClick={() => {
+                  toggle();
+                  clearInputField();
+                }}
               >
                 <svg
                   className="w-5 h-5"
@@ -42,6 +55,8 @@ const AddEmployeeModal = ({ toggle }) => {
                     name="firstName"
                     required
                     placeholder="First Name"
+                    value={employeeData.firstName}
+                    onChange={handleChange}
                     className="w-full mt-1 py-2 pl-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                   />
                 </div>
@@ -55,6 +70,8 @@ const AddEmployeeModal = ({ toggle }) => {
                     name="lastName"
                     required
                     placeholder="Last Name"
+                    value={employeeData.lastName}
+                    onChange={handleChange}
                     className="w-full mt-1 py-2 pl-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                   />
                 </div>
@@ -69,6 +86,8 @@ const AddEmployeeModal = ({ toggle }) => {
                   name="telephone"
                   required
                   placeholder="Telephone"
+                  value={employeeData.telephone}
+                  onChange={handleChange}
                   className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                 />
               </div>
@@ -82,6 +101,8 @@ const AddEmployeeModal = ({ toggle }) => {
                   name="address"
                   required
                   placeholder="Address"
+                  value={employeeData.address}
+                  onChange={handleChange}
                   className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                 />
               </div>
@@ -95,6 +116,8 @@ const AddEmployeeModal = ({ toggle }) => {
                   name="email"
                   required
                   placeholder="Email"
+                  value={employeeData.email}
+                  onChange={handleChange}
                   className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                 />
               </div>
@@ -105,19 +128,39 @@ const AddEmployeeModal = ({ toggle }) => {
                 <input
                   type="date"
                   id="doe"
+                  name="doe"
+                  value={employeeData.doe}
+                  onChange={handleChange}
                   className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                 />
               </div>
+              {/* <div>
+                <label htmlFor="doc" className="text-white">
+                  Date od Cancellation
+                </label>
+                <input
+                  type="date"
+                  id="doc"
+                  name="doc"
+                  onChange={handleChange}
+                  className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
+                />
+              </div> */}
             </div>
             <div className="flex items-center p-6 space-x-4 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
                 data-modal-hide="staticModal"
                 type="button"
+                onClick={handleAddEmployee}
                 className="text-white bg-blue-600 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-6 py-2.5 text-center"
               >
                 Add
               </button>
               <button
+                onClick={() => {
+                  toggle();
+                  clearInputField();
+                }}
                 data-modal-hide="staticModal"
                 type="button"
                 className="text-white bg-none border-2 border-gray-400 font-medium rounded-lg text-sm px-5 py-2 text-center"
