@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { Navbar, NotFound } from "./components";
 import { Employee, Home, Login, Register } from "./Pages/index";
 import { getData } from "./Utils/api";
+import { UserContext } from "./Helper/Context";
 
 function App() {
   const [user, setUser] = useState();
@@ -15,8 +16,8 @@ function App() {
   }, [token]);
 
   return (
-    <div className="relative">
-      {token && <Navbar user={user} />}
+    <UserContext.Provider value={{ user }}>
+      {token && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         {user?.role === "admin" && (
@@ -26,7 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </div>
+    </UserContext.Provider>
   );
 }
 

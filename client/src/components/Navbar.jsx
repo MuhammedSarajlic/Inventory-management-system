@@ -1,15 +1,20 @@
 import Cookies from "js-cookie";
 import React from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../Helper/Context";
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+
   const handleLogOut = () => {
     Cookies.remove("jwt_token");
     navigate("/login");
   };
   return (
     <>
+      {console.log(user)}
       <nav className="absolute w-full px-2 py-1 shadow-lg">
         <div className="container flex flex-wrap items-center justify-end mx-auto">
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
