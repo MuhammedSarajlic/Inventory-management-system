@@ -6,7 +6,7 @@ import { config } from "dotenv";
 config();
 const app = express();
 
-import { UserRoutes } from "./Routes/index.js";
+import { UserRoutes, EmployeeRoutes } from "./Routes/index.js";
 import User from "./Models/User.js";
 
 app.use(express.json());
@@ -26,6 +26,7 @@ const verifyToken = async (req, res, next) => {
 };
 
 app.use("/api", UserRoutes);
+app.use("/api/employee", EmployeeRoutes);
 app.get("/", verifyToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
