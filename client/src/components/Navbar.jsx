@@ -14,10 +14,9 @@ const Navbar = () => {
   };
   return (
     <>
-      {console.log(user)}
-      <nav className="absolute w-full px-2 py-1 shadow-lg">
+      <div className="w-full px-2 py-1 shadow-lg">
         <div className="container flex flex-wrap items-center justify-end mx-auto">
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+          <div className="hidden w-full md:block md:w-auto">
             <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
               <li>
                 <Link
@@ -62,7 +61,7 @@ const Navbar = () => {
             </ul>
           </div>
         </div>
-      </nav>
+      </div>
     </>
   );
 };
