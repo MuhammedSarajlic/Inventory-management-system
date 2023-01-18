@@ -1,7 +1,8 @@
 import express from "express";
 const app = express();
-import { addEmployee } from "../Controllers/Employee.js";
+import { addEmployee, getEmployees } from "../Controllers/Employee.js";
 
 app.post("/add", addEmployee);
+app.get("/get", getEmployees);
 
 export default app;

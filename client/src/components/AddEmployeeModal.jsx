@@ -151,7 +151,10 @@ const AddEmployeeModal = ({
               <button
                 data-modal-hide="staticModal"
                 type="button"
-                onClick={handleAddEmployee}
+                onClick={() => {
+                  toggle();
+                  handleAddEmployee();
+                }}
                 className="text-white bg-blue-600 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-6 py-2.5 text-center"
               >
                 Add

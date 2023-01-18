@@ -16,3 +16,12 @@ export async function addEmployee(req, res) {
     res.status(500).send({ error: error.message });
   }
 }
+
+export async function getEmployees(req, res) {
+  try {
+    const employees = await Employee.find();
+    res.send(employees);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+}

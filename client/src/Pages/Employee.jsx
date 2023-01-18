@@ -1,11 +1,15 @@
+import Cookies from "js-cookie";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { AddEmployeeModal } from "../components";
 import useToggle from "../Hooks/useToggle";
-import { postData } from "../Utils/api";
+import { getData, postData } from "../Utils/api";
 
 const Employee = () => {
+  const token = Cookies.get("jwt_token");
   const [isOpen, toggle] = useToggle(false);
+  const [employees, setEmployees] = useState([]);
   const [employeeData, setEmployeeData] = useState({
     firstName: "",
     lastName: "",
@@ -29,8 +33,20 @@ const Employee = () => {
   };
 
   const handleAddEmployee = () => {
-    postData("/api/employee/add", employeeData).then(() => clearInputField());
+    postData("/api/employee/add", employeeData).then(() => {
+      setEmployees(employeeData);
+      clearInputField();
+    });
   };
+
+  const getEmployees = () => {
+    getData("/api/employee/get", token).then((res) => setEmployees(res));
+  };
+
+  useEffect(() => {
+    getEmployees();
+  }, [employees]);
+
   return (
     <>
       {isOpen && (
@@ -57,53 +73,59 @@ const Employee = () => {
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="pl-6 pr-4 py-3">
                   First Name
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3">
                   Last Name
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3">
                   Telephone
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3">
                   Address
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3">
                   Email
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3">
                   Date of employment
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3">
                   Date of cancellation
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3">
                   Update
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Ime
-                </th>
-                <td className="px-6 py-4">Prezime</td>
-                <td className="px-6 py-4">Telephone</td>
-                <td className="px-6 py-4">Address</td>
-                <td className="px-6 py-4">Email</td>
-                <td className="px-6 py-4">DoC</td>
-                <td className="px-6 py-4">DoC</td>
-                <td className="px-6 py-4">
-                  <button className="bg-blue-700 rounded px-4 py-1.5 text-white text-base">
-                    Update
-                  </button>
-                </td>
-              </tr> */}
-            </tbody>
+            {employees.length > 0 && (
+              <tbody>
+                {employees.map((employee) => (
+                  <tr
+                    key={employee?._id}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  >
+                    <td className="pl-6 pr-4 py-4">{employee?.firstName}</td>
+                    <td className="p-4">{employee?.lastName}</td>
+                    <td className="p-4">{employee?.telephone}</td>
+                    <td className="p-4">{employee?.address}</td>
+                    <td className="p-4">{employee?.email}</td>
+                    <td className="p-4">
+                      {employee?.dateOfEmployment.slice(0, 10)}
+                    </td>
+                    <td className="p-4">
+                      {employee?.dateOfCancellation || ""}
+                    </td>
+                    <td className="p-4">
+                      <button className="bg-blue-700 rounded px-4 py-1.5 text-white text-base">
+                        Update
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
           </table>
         </div>
       </div>
