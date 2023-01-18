@@ -1,17 +1,34 @@
-import { Employee } from "../Models/index.js";
+import { Employee, User } from "../Models/index.js";
+import bcrypt from "bcrypt";
 
 export async function addEmployee(req, res) {
   try {
-    const { firstName, lastName, telephone, address, email, doe } = req.body;
-    await Employee.create({
+    const {
       firstName,
       lastName,
       telephone,
       address,
       email,
-      dateOfEmployment: new Date(Date.parse(doe)),
+      username,
+      password,
+      dateOfEmployment,
+    } = req.body;
+    const employee = await Employee.create({
+      firstName,
+      lastName,
+      telephone,
+      address,
+      email,
+      dateOfEmployment,
     });
-    res.send({ message: "Employee added" });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.create({
+      employee_id: employee._id,
+      username,
+      password: hashedPassword,
+      role: "employee",
+    });
+    res.send({ message: "Employee and User added" });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

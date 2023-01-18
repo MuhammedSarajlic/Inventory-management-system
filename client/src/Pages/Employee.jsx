@@ -14,6 +14,8 @@ const initialState = {
   address: "",
   email: "",
   dateOfEmployment: "",
+  username: "",
+  password: "",
   dateOfCancellation: "",
 };
 

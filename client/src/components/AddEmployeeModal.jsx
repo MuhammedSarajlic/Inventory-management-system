@@ -125,6 +125,40 @@ const AddEmployeeModal = ({
                   className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                 />
               </div>
+              {!isUpdate && (
+                <>
+                  <div>
+                    <label htmlFor="username" className="text-white">
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      placeholder="Username"
+                      required
+                      value={employeeData.username}
+                      onChange={handleChange}
+                      className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="password" className="text-white">
+                      Password
+                    </label>
+                    <input
+                      type="Password"
+                      id="password"
+                      name="password"
+                      placeholder="Password"
+                      required
+                      value={employeeData.password}
+                      onChange={handleChange}
+                      className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
+                    />
+                  </div>
+                </>
+              )}
               <div>
                 <label htmlFor="doe" className="text-white">
                   Date od Employment
@@ -149,7 +183,7 @@ const AddEmployeeModal = ({
                     id="doc"
                     name="dateOfCancellation"
                     required
-                    value={employeeData.dateOfCancellation || ""}
+                    value={employeeData.dateOfCancellation}
                     onChange={handleChange}
                     className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                   />
