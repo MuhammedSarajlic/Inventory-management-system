@@ -29,7 +29,7 @@ export async function addUser(req, res) {
 export async function checkUser(req, res) {
   const { username, password } = req.body;
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate("employee_id");
     if (!user) {
       return res.status(401).send({ error: "Invalid username or password" });
     }
@@ -37,9 +37,16 @@ export async function checkUser(req, res) {
     if (!isValidPassword) {
       return res.status(401).send({ error: "Invalid username or password" });
     }
+    if (
+      user.role === "Employee" &&
+      user.employee_id.dateOfCancellation !== null &&
+      user.employee_id.dateOfCancellation !== undefined
+    ) {
+      return res.status(401).send({ error: "You are fired" });
+    }
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
     res.send({ token });
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send({ error: error.message });
   }
 }

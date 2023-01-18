@@ -7,6 +7,7 @@ import { postData } from "../Utils/api";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
@@ -25,10 +26,12 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    postData("/api/check-user", loginData).then((res) => {
-      Cookies.set("jwt_token", res.token);
-      navigate("/");
-    });
+    postData("/api/check-user", loginData)
+      .then((res) => {
+        Cookies.set("jwt_token", res.token);
+        navigate("/");
+      })
+      .catch((err) => setError(err.response.data.error));
   };
 
   return (
@@ -48,7 +51,7 @@ const Login = () => {
                   />
                 </div>
 
-                <div className="mb-6">
+                <div className="mb-2">
                   <input
                     type="password"
                     name="password"
@@ -57,26 +60,9 @@ const Login = () => {
                     onChange={handleChange}
                   />
                 </div>
-
-                <div className="flex justify-between items-center mb-6">
-                  <div className="form-group form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                      id="exampleCheck2"
-                    />
-                    <label
-                      className="form-check-label inline-block text-gray-800"
-                      htmlFor="exampleCheck2"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                  <a href="#!" className="text-gray-800">
-                    Forgot password?
-                  </a>
+                <div className="mb-4">
+                  <p className="text-red-500 text-xl">{error}</p>
                 </div>
-
                 <div className="text-center lg:text-left">
                   <button
                     type="button"
