@@ -6,6 +6,9 @@ const AddEmployeeModal = ({
   handleAddEmployee,
   employeeData,
   clearInputField,
+  isUpdate,
+  setIsUpdate,
+  updateEmployee,
 }) => {
   const handleChange = (e) => {
     setEmployeeData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -27,6 +30,7 @@ const AddEmployeeModal = ({
                 onClick={() => {
                   toggle();
                   clearInputField();
+                  setIsUpdate(false);
                 }}
               >
                 <svg
@@ -128,24 +132,29 @@ const AddEmployeeModal = ({
                 <input
                   type="date"
                   id="doe"
-                  name="doe"
-                  value={employeeData.doe}
+                  name="dateOfEmployment"
+                  required
+                  value={employeeData.dateOfEmployment}
                   onChange={handleChange}
                   className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
                 />
               </div>
-              {/* <div>
-                <label htmlFor="doc" className="text-white">
-                  Date od Cancellation
-                </label>
-                <input
-                  type="date"
-                  id="doc"
-                  name="doc"
-                  onChange={handleChange}
-                  className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
-                />
-              </div> */}
+              {isUpdate && (
+                <div>
+                  <label htmlFor="doc" className="text-white">
+                    Date od Cancellation
+                  </label>
+                  <input
+                    type="date"
+                    id="doc"
+                    name="dateOfCancellation"
+                    required
+                    value={employeeData.dateOfCancellation || ""}
+                    onChange={handleChange}
+                    className="w-full mt-1 p-2 rounded bg-gray-400 text-white placeholder:text-white outline-none"
+                  />
+                </div>
+              )}
             </div>
             <div className="flex items-center p-6 space-x-4 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
@@ -153,16 +162,18 @@ const AddEmployeeModal = ({
                 type="button"
                 onClick={() => {
                   toggle();
-                  handleAddEmployee();
+                  isUpdate ? updateEmployee() : handleAddEmployee();
+                  setIsUpdate(false);
                 }}
                 className="text-white bg-blue-600 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-6 py-2.5 text-center"
               >
-                Add
+                {isUpdate ? "Update" : "Add"}
               </button>
               <button
                 onClick={() => {
                   toggle();
                   clearInputField();
+                  setIsUpdate(false);
                 }}
                 data-modal-hide="staticModal"
                 type="button"

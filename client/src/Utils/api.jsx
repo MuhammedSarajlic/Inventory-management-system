@@ -11,8 +11,15 @@ export async function getData(url, token) {
     .catch((err) => err);
 }
 
-export async function postData(url, data, token) {
+export async function postData(url, data) {
   return axios
     .post(`${process.env.REACT_APP_PATH}${url}`, data)
     .then((response) => response.data);
+}
+
+export async function updateData(url, data) {
+  return axios
+    .patch(`${process.env.REACT_APP_PATH}${url}`, data)
+    .then((response) => response.data)
+    .catch((err) => err);
 }

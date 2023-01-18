@@ -25,3 +25,13 @@ export async function getEmployees(req, res) {
     res.status(500).send({ error: error.message });
   }
 }
+
+export async function updateEmployee(req, res) {
+  try {
+    const { _id, ...updateData } = req.body;
+    await Employee.findOneAndUpdate({ _id }, { $set: updateData });
+    res.send({ message: "Employee updated" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+}

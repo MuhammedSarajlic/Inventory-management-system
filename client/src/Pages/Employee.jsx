@@ -4,32 +4,28 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { AddEmployeeModal } from "../components";
 import useToggle from "../Hooks/useToggle";
-import { getData, postData } from "../Utils/api";
+import { getData, postData, updateData } from "../Utils/api";
+
+const initialState = {
+  id: "",
+  firstName: "",
+  lastName: "",
+  telephone: "",
+  address: "",
+  email: "",
+  dateOfEmployment: "",
+  dateOfCancellation: "",
+};
 
 const Employee = () => {
   const token = Cookies.get("jwt_token");
   const [isOpen, toggle] = useToggle(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [employees, setEmployees] = useState([]);
-  const [employeeData, setEmployeeData] = useState({
-    firstName: "",
-    lastName: "",
-    telephone: "",
-    address: "",
-    email: "",
-    doe: "",
-    doc: "",
-  });
+  const [employeeData, setEmployeeData] = useState(initialState);
 
   const clearInputField = () => {
-    setEmployeeData({
-      firstName: "",
-      lastName: "",
-      telephone: "",
-      address: "",
-      email: "",
-      doe: "",
-      doc: "",
-    });
+    setEmployeeData(initialState);
   };
 
   const handleAddEmployee = () => {
@@ -41,6 +37,19 @@ const Employee = () => {
 
   const getEmployees = () => {
     getData("/api/employee/get", token).then((res) => setEmployees(res));
+  };
+
+  const updateEmployeeData = (id) => {
+    let employee = employees.find((employee) => employee._id === id);
+    setEmployeeData({
+      ...employee,
+      dateOfEmployment: employee?.dateOfEmployment?.slice(0, 10),
+      dateOfCancellation: employee?.dateOfCancellation?.slice(0, 10),
+    });
+  };
+
+  const updateEmployee = () => {
+    updateData("/api/employee/update", employeeData);
   };
 
   useEffect(() => {
@@ -56,8 +65,12 @@ const Employee = () => {
           handleAddEmployee={handleAddEmployee}
           employeeData={employeeData}
           clearInputField={clearInputField}
+          isUpdate={isUpdate}
+          setIsUpdate={setIsUpdate}
+          updateEmployee={updateEmployee}
         />
       )}
+
       <div className="pt-10 max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center my-8">
           <p className="text-3xl font-bold">Employees</p>
@@ -68,7 +81,6 @@ const Employee = () => {
             + Add Employee
           </button>
         </div>
-
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -112,13 +124,20 @@ const Employee = () => {
                     <td className="p-4">{employee?.address}</td>
                     <td className="p-4">{employee?.email}</td>
                     <td className="p-4">
-                      {employee?.dateOfEmployment.slice(0, 10)}
+                      {employee?.dateOfEmployment?.slice(0, 10)}
                     </td>
                     <td className="p-4">
-                      {employee?.dateOfCancellation || ""}
+                      {employee?.dateOfCancellation?.slice(0, 10) || ""}
                     </td>
                     <td className="p-4">
-                      <button className="bg-blue-700 rounded px-4 py-1.5 text-white text-base">
+                      <button
+                        onClick={() => {
+                          toggle();
+                          setIsUpdate(true);
+                          updateEmployeeData(employee?._id);
+                        }}
+                        className="bg-blue-700 rounded px-4 py-1.5 text-white text-base"
+                      >
                         Update
                       </button>
                     </td>
