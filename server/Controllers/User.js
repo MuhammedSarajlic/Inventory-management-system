@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export async function addUser(req, res) {
   try {
-    const { username, password } = req.body;
+    const { username, password, confirm_password } = req.body;
     if (await User.findOne({ username })) {
       return res
         .status(400)
@@ -12,6 +12,9 @@ export async function addUser(req, res) {
     }
     if (password.length < 8) {
       return res.status(400).send({ error: "Password is too short" });
+    }
+    if (password !== confirm_password) {
+      return res.status(400).send({ error: "Passwords do not match" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
