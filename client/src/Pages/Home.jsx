@@ -5,7 +5,7 @@ import { getData, updateData } from "../Utils/api";
 import { UserContext } from "../Helper/Context";
 import useToggle from "../Hooks/useToggle";
 
-const Home = ({ setUser }) => {
+const Home = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [isOpen, toggle] = useToggle();
@@ -41,11 +41,9 @@ const Home = ({ setUser }) => {
     getData("/", token).then((res) => {
       if (res.response?.status === 401) {
         navigate("/login");
-      } else {
-        setUser(res);
       }
     });
-  }, [navigate, setUser]);
+  }, [navigate]);
 
   return (
     <div className="absolute top-0 w-full h-screen flex items-center justify-center">

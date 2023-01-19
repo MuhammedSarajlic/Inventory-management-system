@@ -29,7 +29,7 @@ app.use("/api", UserRoutes);
 app.use("/api/employee", EmployeeRoutes);
 app.get("/", verifyToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user._id).populate("employee_id");
     res.send(user);
   } catch (error) {
     res.status(500).send({ error: error.message });

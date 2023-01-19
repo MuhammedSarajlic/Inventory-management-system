@@ -1,11 +1,10 @@
 import Cookies from "js-cookie";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, NotFound } from "./components";
 import { Employee, Home, Login, Register } from "./Pages/index";
-import { getData } from "./Utils/api";
 import { UserContext } from "./Helper/Context";
+import { getData } from "./Utils/api";
 
 function App() {
   const [user, setUser] = useState();
