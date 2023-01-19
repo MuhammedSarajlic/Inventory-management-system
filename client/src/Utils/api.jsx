@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getData(url, token) {
-  return axios
+  return await axios
     .get(`${process.env.REACT_APP_PATH}${url}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -12,13 +12,13 @@ export async function getData(url, token) {
 }
 
 export async function postData(url, data) {
-  return axios
+  return await axios
     .post(`${process.env.REACT_APP_PATH}${url}`, data)
     .then((response) => response.data);
 }
 
 export async function updateData(url, data) {
-  return axios
+  return await axios
     .patch(`${process.env.REACT_APP_PATH}${url}`, data)
     .then((response) => response.data)
     .catch((err) => err);
