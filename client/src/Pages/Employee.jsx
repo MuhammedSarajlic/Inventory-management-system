@@ -1,7 +1,5 @@
 import Cookies from "js-cookie";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AddEmployeeModal } from "../components";
 import useToggle from "../Hooks/useToggle";
 import { getData, postData, updateData } from "../Utils/api";
@@ -32,14 +30,16 @@ const Employee = () => {
 
   const handleAddEmployee = () => {
     postData("/api/employee/add", employeeData).then(() => {
-      setEmployees(employeeData);
+      setEmployees([...employees, employeeData]);
       clearInputField();
     });
   };
 
-  const getEmployees = () => {
-    getData("/api/employee/get", token).then((res) => setEmployees(res));
-  };
+  const getEmployees = useCallback(async () => {
+    await getData("/api/employee/get", token).then((res) => {
+      setEmployees(res);
+    });
+  }, [token]);
 
   const updateEmployeeData = (id) => {
     let employee = employees.find((employee) => employee._id === id);
@@ -56,7 +56,7 @@ const Employee = () => {
 
   useEffect(() => {
     getEmployees();
-  }, [employees]);
+  }, [getEmployees]);
 
   return (
     <>
