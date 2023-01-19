@@ -73,7 +73,7 @@ const Employee = () => {
         />
       )}
 
-      <div className="pt-10 max-w-7xl mx-auto px-4">
+      <div className="mt-32 max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center my-8">
           <p className="text-3xl font-bold">Employees</p>
           <button
