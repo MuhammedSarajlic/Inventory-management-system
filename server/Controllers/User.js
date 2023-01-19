@@ -53,3 +53,27 @@ export async function checkUser(req, res) {
     res.status(500).send({ error: error.message });
   }
 }
+
+export async function changePassword(req, res) {
+  try {
+    const { _id, oldPassword, newPassword, repeatPassword } = req.body;
+    const user = await User.findById(_id);
+    const isValidPassword = await bcrypt.compare(oldPassword, user.password);
+    if (!isValidPassword) {
+      return res.status(400).send({ error: "Password is incorrect" });
+    }
+    if (oldPassword === newPassword) {
+      return res.status(400).send({ error: "You entered the same password" });
+    }
+    if (newPassword !== repeatPassword) {
+      return res.status(400).send({ error: "Passwords do not match" });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.findByIdAndUpdate(_id, {
+      password: hashedPassword,
+    });
+    res.send({ message: "Password changed" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+}
