@@ -1,6 +1,7 @@
-import Cookies from "js-cookie";
+import { useContext } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { AddEmployeeModal } from "../components";
+import { UserContext } from "../Helper/Context";
 import useToggle from "../Hooks/useToggle";
 import { getData, postData, updateData } from "../Utils/api";
 
@@ -18,7 +19,7 @@ const initialState = {
 };
 
 const Employee = () => {
-  const token = Cookies.get("jwt_token");
+  const { token } = useContext(UserContext);
   const [isOpen, toggle] = useToggle(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [employees, setEmployees] = useState([]);
