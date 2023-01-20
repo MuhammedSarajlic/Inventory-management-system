@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, NotFound } from "./components";
-import { Employee, Home, Login, Register } from "./Pages/index";
+import { Employee, Home, Login, Register, Supplier } from "./Pages/index";
 import { UserContext } from "./Helper/Context";
 import { getData } from "./Utils/api";
 
@@ -16,13 +16,14 @@ function App() {
   }, [token]);
 
   return (
-    <UserContext.Provider value={{ user }}>
+    <UserContext.Provider value={{ user, token }}>
       {pathname !== "/login" && pathname !== "/register" && token && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         {user?.role === "admin" && (
           <Route path="/employee" element={<Employee />} />
         )}
+        <Route path="/supplier" element={<Supplier />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
