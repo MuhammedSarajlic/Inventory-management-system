@@ -23,7 +23,6 @@ const Home = () => {
       ...changePaswordData,
       _id: user._id,
     }).then((res) => {
-      console.log(res);
       setError(res.response?.data?.error);
       if (res.response?.status !== 400) return toggle();
     });
