@@ -38,17 +38,26 @@ const Navbar = () => {
                 </li>
               )}
               <li>
-                <Link className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500">
+                <Link
+                  to="/warehouse"
+                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500"
+                >
                   Warehouse
                 </Link>
               </li>
               <li>
-                <Link className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500">
+                <Link
+                  to="/supplier"
+                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500"
+                >
                   Suppliers
                 </Link>
               </li>
               <li>
-                <Link className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500">
+                <Link
+                  to="/products"
+                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:text-gray-500"
+                >
                   Products
                 </Link>
               </li>
